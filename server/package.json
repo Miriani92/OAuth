@@ -2,9 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon"
   },
   "keywords": [],
   "author": "",
@@ -21,7 +21,9 @@
     "nodemailer": "^6.9.7",
     "nodemon": "^3.0.2",
     "pino": "^8.17.1",
-    "pino-pretty": "^10.3.0"
+    "pino-pretty": "^10.3.0",
+    "socket.io": "^4.7.2",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
