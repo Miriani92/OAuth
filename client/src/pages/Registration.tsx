@@ -1,5 +1,17 @@
 import React from "react";
+import { Container } from "@mui/material";
+import { NavigationBar } from "../components";
 
-const Registration = () => {
-  return <section>Registration</section>;
+export const Registration = () => {
+  return (
+    <Container
+      maxWidth="lg"
+      sx={{
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      <NavigationBar />
+    </Container>
+  );
 };
