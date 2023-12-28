@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  AppBar,
-  Typography,
-  Box,
-  Container,
-  Button,
-  Toolbar,
-  IconButton,
-} from "@mui/material";
+import { AppBar, Typography, Toolbar, IconButton } from "@mui/material";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import { useTheme } from "../../utils/ThemeProvider";
