@@ -3,7 +3,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 import GithubIcon from "@mui/icons-material/GitHub";
 import { Container, Button, Box, Typography } from "@mui/material";
 import { NavigationBar } from "../components";
-import { green, red } from "@mui/material/colors";
+import { getGoogleOAuthURL } from "../utils/getGoogleUrl";
 
 export const Registration = () => {
   return (
@@ -29,6 +29,7 @@ export const Registration = () => {
       >
         <Typography variant="h4">Sign with Providers</Typography>
         <Button
+          href={getGoogleOAuthURL()}
           variant="contained"
           color="secondary"
           fullWidth
