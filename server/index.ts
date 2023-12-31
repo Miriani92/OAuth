@@ -5,7 +5,7 @@ import env from "dotenv";
 import http, { Server } from "http";
 import { Server as SocketServer } from "socket.io";
 import authRouter from "./routes/auth.router";
-import qs from "qs";
+import { connectDB } from "./utils/connectDb";
 
 env.config();
 
@@ -21,4 +21,13 @@ app.use("/api/v1/auth", authRouter);
 const server: Server = http.createServer(app);
 const io: SocketServer = new SocketServer(server);
 
-app.listen(port, () => logger.info(`port is running on port ${port}`));
+const start = async () => {
+  try {
+    await connectDB(process.env.MONGO_URI || "");
+    logger.info("connected to db");
+    app.listen(port, () => logger.info(`server is running on port ${port}`));
+  } catch (error) {
+    logger.error(error, "failed to start server");
+  }
+};
+start();

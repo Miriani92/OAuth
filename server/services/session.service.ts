@@ -1,6 +1,9 @@
 import qs from "qs";
 import logger from "../utils/logger";
 import axios from "axios";
+import { UserDocument } from "../models/session.model";
+import { UserModel } from "../models/session.model";
+
 interface GoogleTokensResult {
   access_token: string;
   expires_in: Number;
@@ -75,3 +78,18 @@ export const getGoogleUser = async ({
     throw new Error(error.message);
   }
 };
+
+export async function createUser(
+  // input: Document<
+  //   Omit<UserDocument, "createdAt" | "updatedAt" | "comparePassword">
+  // >
+  input: Omit<UserDocument, "createdAt" | "updatedAt">
+) {
+  try {
+    const user = await UserModel.create(input);
+
+    return user;
+  } catch (e: any) {
+    throw new Error(e);
+  }
+}

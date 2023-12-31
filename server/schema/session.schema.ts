@@ -1,26 +1,26 @@
-import { object, string, TypeOf } from "zod";
+import mongoose from "mongoose";
+import { UserDocument } from "../models/session.model";
 
-export const createUserSchema = object({
-  body: object({
-    name: string({
-      required_error: "Name is required",
-    }),
-    password: string({
-      required_error: "Name is required",
-    }).min(6, "Password too short - should be 6 chars minimum"),
-    passwordConfirmation: string({
-      required_error: "passwordConfirmation is required",
-    }),
-    email: string({
-      required_error: "Email is required",
-    }).email("Not a valid email"),
-  }).refine((data) => data.password === data.passwordConfirmation, {
-    message: "Passwords do not match",
-    path: ["passwordConfirmation"],
-  }),
-});
+export interface SessionDocument extends mongoose.Document {
+  user: UserDocument;
+  valid: boolean;
+  userAgent: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-export type CreateUserInput = Omit<
-  TypeOf<typeof createUserSchema>,
-  "body.passwordConfirmation"
->;
+const sessionSchema = new mongoose.Schema(
+  {
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    valid: { type: Boolean, default: true },
+    userAgent: { type: String },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export const SessionModel = mongoose.model<SessionDocument>(
+  "Session",
+  sessionSchema
+);
