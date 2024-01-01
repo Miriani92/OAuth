@@ -4,6 +4,9 @@ import axios from "axios";
 import { UserDocument } from "../models/user.model";
 import { UserModel } from "../models/user.model";
 import { SessionModel } from "../models/session.model";
+import { verifyJwt } from "../utils/jwt";
+import { findUser } from "./user.services";
+import { signJwt } from "../utils/jwt";
 
 interface GoogleTokensResult {
   access_token: string;
@@ -94,7 +97,32 @@ export async function createUser(
     throw new Error(e);
   }
 }
-export async function createSession(userId: any, userAgent: string) {
+export const createSession = async (userId: any, userAgent: string) => {
   const session = await SessionModel.create({ user: userId, userAgent });
   return session.toJSON();
-}
+};
+
+export const reIssueAccessToken = async ({
+  refreshToken,
+}: {
+  refreshToken: string;
+}) => {
+  const { decoded } = verifyJwt(refreshToken);
+
+  if (!decoded || !decoded.session) return false;
+
+  const session = await SessionModel.findById(decoded.session);
+
+  if (!session || !session.valid) return false;
+
+  const user = await findUser({ _id: session.user });
+
+  if (!user) return false;
+
+  const accessToken = signJwt(
+    { ...user, session: session._id },
+    { expiresIn: process.env.EXPIRES_IN_ACCESS }
+  );
+
+  return accessToken;
+};
