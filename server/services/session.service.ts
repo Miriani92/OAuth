@@ -1,8 +1,9 @@
 import qs from "qs";
 import logger from "../utils/logger";
 import axios from "axios";
-import { UserDocument } from "../models/session.model";
-import { UserModel } from "../models/session.model";
+import { UserDocument } from "../models/user.model";
+import { UserModel } from "../models/user.model";
+import { SessionModel } from "../models/session.model";
 
 interface GoogleTokensResult {
   access_token: string;
@@ -92,4 +93,8 @@ export async function createUser(
   } catch (e: any) {
     throw new Error(e);
   }
+}
+export async function createSession(userId: any, userAgent: string) {
+  const session = await SessionModel.create({ user: userId, userAgent });
+  return session.toJSON();
 }

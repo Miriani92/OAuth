@@ -1,48 +1,33 @@
 import mongoose from "mongoose";
-// @ts-ignore
-import bcrypt from "bcryptjs";
+import { UserDocument } from "./user.model";
 
-export interface UserDocument {
-  email: string;
-  name: string;
-  picture: string;
+// export interface SessionDocument extends mongoose.Document {
+//   user: UserDocument["_id"];
+//   valid: boolean;
+//   userAgent: string;
+//   createdAt: Date;
+//   updatedAt: Date;
+// }
+export interface SessionDocument {
+  user: UserDocument;
+  valid: boolean;
+  userAgent: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const userSchema = new mongoose.Schema(
+const sessionSchema = new mongoose.Schema(
   {
-    email: { type: String, required: true, unique: true },
-    name: { type: String, required: true },
-    picture: { type: String },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    valid: { type: Boolean, default: true },
+    userAgent: { type: String },
   },
   {
     timestamps: true,
   }
 );
 
-// userSchema.pre("save", async function (next) {
-//   let user = this as UserDocument;
-
-//   if (!user.isModified("password")) {
-//     return next();
-//   }
-
-//   const salt = await bcrypt.genSalt(process.env.SALT_SECRET);
-
-//   const hash = await bcrypt.hashSync(user.password, salt);
-
-//   user.password = hash;
-
-//   return next();
-// });
-
-// userSchema.methods.comparePassword = async function (
-//   candidatePassword: string
-// ): Promise<boolean> {
-//   const user = this as UserDocument;
-
-//   return bcrypt.compare(candidatePassword, user.password).catch(() => false);
-// };
-
-export const UserModel = mongoose.model<UserDocument>("User", userSchema);
+export const SessionModel = mongoose.model<SessionDocument>(
+  "Sessions",
+  sessionSchema
+);
