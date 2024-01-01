@@ -1,9 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-// import thunk from "redux-thunk";
-import theme from "./slices/theme_slice";
+import auth from "./slices/auth.slices";
 
 export const store = configureStore({
-  reducer: { theme },
+  reducer: { auth },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

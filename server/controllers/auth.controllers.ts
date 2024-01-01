@@ -11,7 +11,6 @@ import {
 } from "../utils/cookie";
 
 export const googleOauthHandler = async (req: Request, res: Response) => {
-  // get the code from qs
   const code = req.query.code as string;
 
   try {
@@ -47,7 +46,7 @@ export const googleOauthHandler = async (req: Request, res: Response) => {
     res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
     logger.info("tokens_attached");
 
-    res.redirect(process.env.ORIGIN || "");
+    res.redirect(process.env.REDIRECT_URL || "");
   } catch (error) {
     logger.error(error, "Failed to authorize Google user");
     return res.redirect(process.env.ORIGIN || "");

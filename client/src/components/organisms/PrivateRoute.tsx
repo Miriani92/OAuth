@@ -1,5 +1,6 @@
 import React, { ReactNode, FC, ReactElement } from "react";
 import { Navigate, RouteProps } from "react-router-dom";
+import { useAppSelector } from "../../hooks/use_store";
 
 type PrivateRouteProps = RouteProps & { children: ReactNode };
 
@@ -7,9 +8,11 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({
   children,
   ...rest
 }): ReactElement | any => {
-  return true ? (
+  const { user } = useAppSelector((state) => state.auth);
+
+  return user ? (
     children
   ) : (
-    <Navigate to="/chat" replace state={{ from: window.location.pathname }} />
+    <Navigate to="/" replace state={{ from: window.location.pathname }} />
   );
 };

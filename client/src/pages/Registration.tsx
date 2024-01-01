@@ -4,8 +4,13 @@ import GithubIcon from "@mui/icons-material/GitHub";
 import { Container, Button, Box, Typography } from "@mui/material";
 import { NavigationBar } from "../components";
 import { getGoogleOAuthURL } from "../utils/getGoogleUrl";
+import { Navigate } from "react-router-dom";
+import { useAppSelector } from "../hooks/use_store";
 
 export const Registration = () => {
+  const { user } = useAppSelector((state) => state.auth);
+  const isUser = Object.values(user).some((value) => value !== "");
+
   return (
     <Container
       maxWidth="lg"
@@ -16,6 +21,7 @@ export const Registration = () => {
       }}
     >
       <NavigationBar />
+      {isUser && <Navigate to="/chat" />}
       <Box
         sx={{
           p: 2,
