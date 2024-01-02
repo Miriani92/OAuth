@@ -7,10 +7,12 @@ import Page from "./router/AppRoutes";
 
 function App() {
   return (
-    <Container>
+    // <Container>
+    <>
       <CssBaseline />
       <Page />
-    </Container>
+    </>
+    // </Container>
   );
 }
 

@@ -32,6 +32,22 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
       palette: {
         // @ts-ignore
         mode: theme,
+        chat: {
+          primary: {
+            main: "#5A4F7E",
+          },
+          secondary: {
+            main: "#4C426A ",
+          },
+        },
+        message: {
+          primary: {
+            main: "#E5AD8C",
+          },
+          secondary: {
+            main: "#69C3B6",
+          },
+        },
       },
     });
     return themeData;
