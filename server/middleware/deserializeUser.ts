@@ -14,31 +14,32 @@ export const deserializeUser = async (
 
   const refreshToken = req.cookies?.refreshToken || req.headers["x-refresh"];
 
-  if (!accessToken) {
-    return next();
-  }
+  // if (!accessToken) {
+  //   return next();
+  // }
+  let newAccessToken;
+  if (refreshToken) {
+    if (accessToken) {
+      const { decoded, expired } = verifyJwt(accessToken);
+      if (decoded) {
+        res.locals.user = decoded;
+        return next();
+      }
+    }
+    if (refreshToken) {
+      newAccessToken = await reIssueAccessToken({ refreshToken });
+      if (newAccessToken) {
+        res.setHeader("x-access-token", newAccessToken);
 
-  const { decoded, expired } = verifyJwt(accessToken);
-
-  if (decoded) {
-    res.locals.user = decoded;
-    return next();
-  }
-
-  if (expired && refreshToken) {
-    const newAccessToken = await reIssueAccessToken({ refreshToken });
-
-    if (newAccessToken) {
-      res.setHeader("x-access-token", newAccessToken);
-
-      res.cookie("accessToken", newAccessToken, {
-        maxAge: 900000, // 15 mins
-        httpOnly: true,
-        domain: "localhost",
-        path: "/",
-        sameSite: "strict",
-        secure: false,
-      });
+        res.cookie("accessToken", newAccessToken, {
+          maxAge: 900000, // 15 mins
+          httpOnly: true,
+          domain: "localhost",
+          path: "/",
+          sameSite: "strict",
+          secure: false,
+        });
+      }
     }
 
     const result = verifyJwt(newAccessToken as string);
