@@ -1,7 +1,8 @@
-import React from "react";
 import { Container } from "@mui/material";
 import { SearchBar } from "../components";
 import { ButtonOutline } from "../components";
+import { ChatInput } from "../components";
+import { ChatUserImage } from "../components";
 
 export const Chat = () => {
   return (
@@ -20,6 +21,8 @@ export const Chat = () => {
       <SearchBar />
       <ButtonOutline text="clear chat" />
       <ButtonOutline text="more" />
+      <ChatInput />
+      <ChatUserImage />
     </Container>
   );
 };

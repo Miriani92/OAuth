@@ -21,7 +21,7 @@ export const Registration = () => {
       }}
     >
       <NavigationBar />
-      {isUser && <Navigate to="/chat" />}
+      {true && <Navigate to="/chat" />}
       <Box
         sx={{
           p: 2,

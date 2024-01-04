@@ -35,16 +35,16 @@ export const SearchBar = () => {
           fontSize: "14px",
           "& .MuiOutlinedInput-root": {
             "&.Mui-focused": {
-              borderColor: "transparent", // Remove the blue line on focus
+              borderColor: "transparent",
             },
           },
           "& .MuiOutlinedInput-notchedOutline": {
-            display: "none", // Hide the outline
+            display: "none",
           },
           "& .MuiSvgIcon-root": {
             marginLeft: "auto",
             marginRight: "auto",
-            display: "block", // Center the icon
+            display: "block",
           },
         },
       }}
