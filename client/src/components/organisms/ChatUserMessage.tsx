@@ -7,6 +7,7 @@ type ChatUserMessageProps = {
   messages?: any[];
   imageUrl?: string;
   sendTime?: string;
+  isMyMessage?: boolean;
 };
 
 export const ChatUserMessage: React.FC<ChatUserMessageProps> = ({
@@ -16,9 +17,12 @@ export const ChatUserMessage: React.FC<ChatUserMessageProps> = ({
   ],
   imageUrl,
   sendTime = "09:00",
+  isMyMessage = false,
 }) => {
+  const backGroundColor = isMyMessage ? "message.primary.main" : "#4C426A";
+  const justifyContent = isMyMessage ? "flex-end" : "start";
   return (
-    <Stack direction="row" gap={1}>
+    <Stack direction="row" gap={1} justifyContent={justifyContent}>
       <List
         sx={{
           display: "flex",
@@ -29,16 +33,24 @@ export const ChatUserMessage: React.FC<ChatUserMessageProps> = ({
           gap: 1,
         }}
       >
-        <Box alignSelf="flex-start">
-          <ChatUserImage />
-        </Box>
-        <Box display="flex" flexDirection="column" gap={1}>
+        {!isMyMessage && (
+          <Box alignSelf="flex-start">
+            <ChatUserImage />
+          </Box>
+        )}
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap={1}
+          // alignSelf="flex-end"
+          justifyContent="flex-end"
+        >
           {messages.map((message) => {
             return (
               <ListItem
                 sx={{
                   textWrap: "wrap",
-                  backgroundColor: "#4C426A",
+                  backgroundColor: backGroundColor,
                   borderRadius: "25px",
                 }}
               >

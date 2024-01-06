@@ -21,6 +21,10 @@ export const SearchBar = () => {
       sx={{
         bgcolor: "chat.primary.main",
         borderRadius: "25px",
+        height: "50px",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "center",
         ...searchBarWidth,
       }}
       InputProps={{

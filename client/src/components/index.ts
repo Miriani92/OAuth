@@ -5,3 +5,5 @@ export { ButtonOutline } from "./atoms/ButtonOutline";
 export { ChatInput } from "./molecules/ChatInput";
 export { ChatUserImage } from "./molecules/ChatUserImage";
 export { ChatUserMessage } from "./organisms/ChatUserMessage";
+export { ContactsWrapper } from "./organisms/ContactsWrapper";
+export { ContactPersonInfo } from "./molecules/ContactPersonInfo";
