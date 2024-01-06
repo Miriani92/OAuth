@@ -1,5 +1,4 @@
 import React from "react";
-import { Box } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";

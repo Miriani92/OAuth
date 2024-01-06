@@ -1,8 +1,9 @@
 import { Container } from "@mui/material";
-import { SearchBar } from "../components";
+import { ChatUserMessage, SearchBar } from "../components";
 import { ButtonOutline } from "../components";
 import { ChatInput } from "../components";
 import { ChatUserImage } from "../components";
+import { ChatInputWrapper } from "../components/atoms/ChatInputWrapper";
 
 export const Chat = () => {
   return (
@@ -21,8 +22,11 @@ export const Chat = () => {
       <SearchBar />
       <ButtonOutline text="clear chat" />
       <ButtonOutline text="more" />
-      <ChatInput />
       <ChatUserImage />
+      <ChatInputWrapper>
+        <ChatUserMessage />
+        <ChatInput />
+      </ChatInputWrapper>
     </Container>
   );
 };

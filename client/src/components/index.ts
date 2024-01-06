@@ -4,3 +4,4 @@ export { SearchBar } from "./atoms/SearchBar";
 export { ButtonOutline } from "./atoms/ButtonOutline";
 export { ChatInput } from "./molecules/ChatInput";
 export { ChatUserImage } from "./molecules/ChatUserImage";
+export { ChatUserMessage } from "./organisms/ChatUserMessage";

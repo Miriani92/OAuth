@@ -8,10 +8,11 @@ import SendIcon from "@mui/icons-material/Send";
 
 export const ChatInput = () => {
   return (
-    <Stack direction="row" gap={2}>
+    <Stack direction="row" gap={1} justifyContent="space-between">
       <TextField
         variant="outlined"
         size="small"
+        fullWidth
         placeholder="Type a message"
         InputProps={{
           startAdornment: (
@@ -30,6 +31,7 @@ export const ChatInput = () => {
             </InputAdornment>
           ),
           sx: {
+            width: "100%",
             color: grey[900],
             borderRadius: "25px",
             background: grey[100],
