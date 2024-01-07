@@ -1,11 +1,11 @@
-import { Container, Box } from "@mui/material";
+import { Container, Box, Divider } from "@mui/material";
 import { ChatUserMessage, SearchBar } from "../components";
 import { ButtonOutline } from "../components";
 import { ChatInput } from "../components";
-import { ChatUserImage } from "../components";
 import { ChatInputWrapper } from "../components/atoms/ChatInputWrapper";
 import { ContactsWrapper } from "../components";
 import { ContactPersonInfo } from "../components";
+import { ChatUserImage } from "../components";
 
 export const Chat = () => {
   return (
@@ -42,7 +42,19 @@ export const Chat = () => {
       {/* <ChatUserImage /> */}
       <Box display="flex" alignItems="flex-start" gap={4} width="100%">
         <ContactsWrapper>
-          <ContactPersonInfo />
+          <Box display="flex" justifyContent="center" gap={1}>
+            <Box alignSelf="flex-start">
+              <ChatUserImage />
+            </Box>
+            <ContactPersonInfo />
+          </Box>
+          <Divider></Divider>
+          <Box display="flex" justifyContent="center" gap={1}>
+            <Box alignSelf="flex-start">
+              <ChatUserImage />
+            </Box>
+            <ContactPersonInfo />
+          </Box>
         </ContactsWrapper>
         <ChatInputWrapper>
           <ChatUserMessage />

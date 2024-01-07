@@ -42,7 +42,6 @@ export const ChatUserMessage: React.FC<ChatUserMessageProps> = ({
           display="flex"
           flexDirection="column"
           gap={1}
-          // alignSelf="flex-end"
           justifyContent="flex-end"
         >
           {messages.map((message) => {

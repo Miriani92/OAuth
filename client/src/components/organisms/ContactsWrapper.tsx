@@ -6,6 +6,9 @@ export const ContactsWrapper: React.FC<{ children: ReactNode }> = ({
 }) => {
   return (
     <Box
+      display="flex"
+      flexDirection="column"
+      gap={2}
       component="section"
       sx={{
         width: "50%",
