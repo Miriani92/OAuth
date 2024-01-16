@@ -1,4 +1,5 @@
-import { Container, Box, Divider } from "@mui/material";
+import { useEffect } from "react";
+import { Container, Box, Divider, Typography } from "@mui/material";
 import { ChatUserMessage, SearchBar } from "../components";
 import { ButtonOutline } from "../components";
 import { ChatInput } from "../components";
@@ -6,8 +7,17 @@ import { ChatInputWrapper } from "../components/atoms/ChatInputWrapper";
 import { ContactsWrapper } from "../components";
 import { ContactPersonInfo } from "../components";
 import { ChatUserImage } from "../components";
+import { useAppSelector } from "../hooks/use_store";
+import { SOCKET_CONNECTION_URI } from "../constants/constants";
+import io from "socket.io-client";
 
 export const Chat = () => {
+  const { user } = useAppSelector((state) => state.auth);
+  useEffect(() => {
+    const socket = io(SOCKET_CONNECTION_URI);
+    socket.emit("setup", user);
+  }, [user]);
+
   return (
     <Container
       disableGutters={true}
@@ -29,6 +39,9 @@ export const Chat = () => {
         marginBottom={4}
       >
         <SearchBar />
+        <Typography variant="body2">Hello {user.name.toUpperCase()}</Typography>
+        <ChatUserImage />
+
         <Box
           display="flex"
           alignItems="center"

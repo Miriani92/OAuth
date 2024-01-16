@@ -44,9 +44,10 @@ export const ChatUserMessage: React.FC<ChatUserMessageProps> = ({
           gap={1}
           justifyContent="flex-end"
         >
-          {messages.map((message) => {
+          {messages.map((message, idx) => {
             return (
               <ListItem
+                key={idx}
                 sx={{
                   textWrap: "wrap",
                   backgroundColor: backGroundColor,

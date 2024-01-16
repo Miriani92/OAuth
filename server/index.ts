@@ -26,13 +26,33 @@ app.use(
 app.use("/api/v1/auth", authRouter);
 
 const server: Server = http.createServer(app);
-const io: SocketServer = new SocketServer(server);
+const io = new SocketServer(server, {
+  cors: {
+    origin: process.env.ORIGIN,
+  },
+  pingTimeout: 60 * 1000,
+});
+
+io.on("connection", (socket) => {
+  socket.on("setup", (user) => console.log("here", user));
+  socket.emit("message", "Welcome to the server!");
+
+  socket.on("message", (data) => {
+    console.log("Received message:", data);
+
+    io.emit("message", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
 
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI || "");
     logger.info("connected to db");
-    app.listen(port, () => logger.info(`server is running on port ${port}`));
+    server.listen(port, () => logger.info(`server is running on port ${port}`));
   } catch (error) {
     logger.error(error, "failed to start server");
   }
