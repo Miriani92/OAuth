@@ -14,12 +14,10 @@ export const googleOauthHandler = async (req: Request, res: Response) => {
   const code = req.query.code as string;
 
   try {
-    console.log("code:", code);
     const { id_token, access_token } = await getGoogleOAuthTokens({ code });
 
     const googleUser = await getGoogleUser({ id_token, access_token });
 
-    logger.info(googleUser, "googleAccount");
     if (!googleUser.verified_email) {
       return res.status(403).send("Google account is not verified");
     }

@@ -6,6 +6,7 @@ import env from "dotenv";
 import http, { Server } from "http";
 import { Server as SocketServer } from "socket.io";
 import authRouter from "./routes/auth.router";
+import usersRouter from "./routes/users.router";
 import { connectDB } from "./utils/connectDb";
 
 env.config();
@@ -24,6 +25,7 @@ app.use(
 );
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/users", usersRouter);
 
 const server: Server = http.createServer(app);
 const io = new SocketServer(server, {
