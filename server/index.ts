@@ -38,7 +38,7 @@ const io = new SocketServer(server, {
 });
 
 io.on("connection", (socket) => {
-  socket.on("setup", (user) => console.log("here", user));
+  socket.on("setup", (user) => console.log("User connected"));
   socket.emit("message", "Welcome to the server!");
 
   socket.on("message", (data) => {

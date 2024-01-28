@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getChatUser } from "../actions/chat.actions";
+import { getAllChats } from "../actions/chat.actions";
 
 export type User = {
   name: string;
@@ -34,6 +35,21 @@ const chatSlice = createSlice({
         state.chatUsers = action.payload.users;
       })
       .addCase(getChatUser.rejected, (state, action: any) => {
+        // TO DO ---> types
+        state.isLoading = false;
+        state.error = action.error.message;
+      });
+    builder
+      .addCase(getAllChats.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllChats.fulfilled, (state, action: any) => {
+        // TO DO ---> types
+        state.isLoading = false;
+        console.log("in_slices", action.payload.users);
+        state.chatUsers = action.payload[0].users;
+      })
+      .addCase(getAllChats.rejected, (state, action: any) => {
         // TO DO ---> types
         state.isLoading = false;
         state.error = action.error.message;

@@ -26,6 +26,7 @@ export const deserializeUser = async (
         return next();
       }
     }
+
     if (refreshToken) {
       newAccessToken = await reIssueAccessToken({ refreshToken });
       if (newAccessToken) {

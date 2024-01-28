@@ -17,8 +17,11 @@ import { getChatUser } from "../store/actions/chat.actions";
 export const Chat = () => {
   const { user } = useAppSelector((state) => state.auth);
   const { users, isLoading } = useAppSelector((state) => state.users);
-  const { chatUsers } = useAppSelector((state) => state.chat);
+  const { chatUsers, isLoading: isChatDataLoading } = useAppSelector(
+    (state) => state.chat
+  );
 
+  console.log("chat_users", chatUsers);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -29,6 +32,10 @@ export const Chat = () => {
   const handleSearch = (search: string) => {
     dispatch(getUser(search));
   };
+  // TO-DO --->refactor loading functionality
+  if (isChatDataLoading) {
+    return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
+  }
 
   return (
     <Container
@@ -70,7 +77,7 @@ export const Chat = () => {
       </Box>
       <Box display="flex" alignItems="flex-start" gap={4} width="100%">
         <ContactsWrapper>
-          {chatUsers.map((user, idx) => {
+          {chatUsers?.map((user, idx) => {
             return <ContactUser {...user} key={idx} />;
           })}
         </ContactsWrapper>

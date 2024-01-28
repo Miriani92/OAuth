@@ -43,14 +43,36 @@ export const addUserToChat = async (req: Request, res: Response) => {
       match: { _id: { $ne: res.locals.user._id } },
     });
 
-    res.status(200).json(FullChat);
+    return res.status(200).json(FullChat);
   }
-
-  return;
 };
 
-// ui perspective what i want ot achieve is that
-// click ---> send the user that we want to have chat with
-// add the chat ---> we add this user in the chat
-// update the chats ---> when we add the user we send back the chat users that we have and we display this users on the sidebar with the latest message
-//
+export const fetchChats = async (req: Request, res: Response) => {
+  try {
+    let results: any = await Chat.find({
+      users: { $elemMatch: { $eq: res.locals.user._id } },
+    })
+      .populate({
+        path: "users",
+        select: "-password",
+        match: { _id: { $ne: res.locals.user._id } },
+      })
+      .populate("groupAdmin", "-password")
+      .populate("latestMessage")
+      .sort({ updatedAt: -1 })
+      .exec();
+
+    results = await UserModel.populate(results, {
+      path: "latestMessage.sender",
+      select: "name picture email",
+    });
+
+    return res.status(200).send(results);
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      statusCode: 400,
+      message: "something went wrong",
+    });
+  }
+};

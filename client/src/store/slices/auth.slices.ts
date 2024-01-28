@@ -19,7 +19,7 @@ const initialState: AuthState = {
     email: "",
     picture: "",
   },
-  isLoading: false,
+  isLoading: true,
   error: null,
 };
 
