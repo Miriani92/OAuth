@@ -7,6 +7,7 @@ import http, { Server } from "http";
 import { Server as SocketServer } from "socket.io";
 import authRouter from "./routes/auth.router";
 import usersRouter from "./routes/users.router";
+import chatRouter from "./routes/chat.router";
 import { connectDB } from "./utils/connectDb";
 
 env.config();
@@ -26,13 +27,14 @@ app.use(
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", usersRouter);
+app.use("/api/v1/chat", chatRouter);
 
 const server: Server = http.createServer(app);
 const io = new SocketServer(server, {
   cors: {
     origin: process.env.ORIGIN,
   },
-  pingTimeout: 60 * 1000,
+  pingTimeout: 3600 * 1000,
 });
 
 io.on("connection", (socket) => {

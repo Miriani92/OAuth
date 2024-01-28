@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Menu } from "@mui/base/Menu";
 import { MenuItem } from "@mui/base/MenuItem";
-// import {} from "@mui/base/listB"
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Box, List, ListItem, ListItemButton, useTheme } from "@mui/material";
+import { Box, List, ListItemButton, useTheme } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { useAppDispatch } from "../../hooks/use_store";
+import { getChatUser } from "../../store/actions/chat.actions";
 
-export const SearchBar = () => {
+export const SearchBar: React.FC<{
+  onSearch: (searchQuery: string) => void;
+  searchResults: any[];
+  getChatUser: (user: any) => void;
+}> = ({ onSearch, searchResults = [] }) => {
+  const dispatch = useAppDispatch();
   const theme = useTheme();
   const [focused, setFocused] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
-
+  const [searchInput, setSearchInput] = useState("");
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const searchBarWidth = isSmallScreen
     ? { maxWidth: "300px" }
@@ -24,9 +29,35 @@ export const SearchBar = () => {
     setFocused((e) => !e);
   };
 
+  const handleSearch = (searchQuery: string) => {
+    onSearch(searchQuery);
+  };
+
+  const onChange = (e: any) => {
+    setSearchInput(e.target.value);
+  };
+
+  const handleAddChatUser = (user: any) => {
+    dispatch(getChatUser(user));
+  };
+
+  useEffect(() => {
+    let timeoutId: any;
+    if (searchInput !== "") {
+      timeoutId = setTimeout(() => handleSearch(searchInput), 1000);
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [searchInput]);
+
   return (
     <Box position={"relative"}>
       <TextField
+        onChange={onChange}
         variant="outlined"
         size="small"
         placeholder="Search"
@@ -78,15 +109,15 @@ export const SearchBar = () => {
         >
           <List
             disablePadding
-            sx={{ minHeight: 48, boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)" }}
+            sx={{ minHeight: 42, boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)" }}
           >
-            {searchResults.map((item, idx) => {
+            {searchResults.map((user, idx) => {
               return (
                 <ListItemButton
                   key={idx}
-                  onMouseDown={() => console.log("searchResult clicked")}
+                  onMouseDown={() => handleAddChatUser(user)}
                 >
-                  {item}
+                  {user.name}
                 </ListItemButton>
               );
             })}

@@ -30,14 +30,16 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-export const ChatUserImage = () => {
+export const ChatUserImage: React.FC<{ imageSource?: string }> = ({
+  imageSource,
+}) => {
   return (
     <StyledBadge
       overlap="circular"
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       variant="dot"
     >
-      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+      <Avatar alt="Remy Sharp" src={imageSource || ""} />
     </StyledBadge>
   );
 };

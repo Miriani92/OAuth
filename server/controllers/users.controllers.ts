@@ -15,9 +15,9 @@ export const getUser = async (req: Request, res: Response) => {
       }
     : {};
 
-  const user = await UserModel.find(queryWord).find({
+  const users = await UserModel.find(queryWord).find({
     _id: { $ne: res.locals?.user._id },
   });
 
-  return res.status(200).json(user);
+  return res.status(200).json(users);
 };

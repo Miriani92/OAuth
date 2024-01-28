@@ -7,3 +7,4 @@ export { ChatUserImage } from "./molecules/ChatUserImage";
 export { ChatUserMessage } from "./organisms/ChatUserMessage";
 export { ContactsWrapper } from "./organisms/ContactsWrapper";
 export { ContactPersonInfo } from "./molecules/ContactPersonInfo";
+export { ContactUser } from "./organisms/ContactUser";
