@@ -37,10 +37,11 @@ export const addUserToChat = async (req: Request, res: Response) => {
     };
 
     const createdChat = await Chat.create(newChatData);
-    const FullChat = await Chat.findOne({ _id: createdChat._id }).populate(
-      "users",
-      "-password"
-    );
+    const FullChat = await Chat.findOne({ _id: createdChat._id }).populate({
+      path: "users",
+      select: "-password",
+      match: { _id: { $ne: res.locals.user._id } },
+    });
 
     res.status(200).json(FullChat);
   }

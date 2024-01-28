@@ -20,7 +20,7 @@ const initialState: AuthState = {
 };
 
 const chatSlice = createSlice({
-  name: "chatUsers",
+  name: "chat",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -31,7 +31,7 @@ const chatSlice = createSlice({
       .addCase(getChatUser.fulfilled, (state, action: any) => {
         // TO DO ---> types
         state.isLoading = false;
-        state.chatUsers = action.payload;
+        state.chatUsers = action.payload.users;
       })
       .addCase(getChatUser.rejected, (state, action: any) => {
         // TO DO ---> types
