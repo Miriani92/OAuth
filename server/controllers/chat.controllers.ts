@@ -19,7 +19,11 @@ export const addUserToChat = async (req: Request, res: Response) => {
       { users: { $elemMatch: { $eq: userId } } },
     ],
   })
-    .populate("users", "-password")
+    .populate({
+      path: "users",
+      select: "-password",
+      match: { _id: { $ne: res.locals.user._id } },
+    })
     .populate("latestMessage");
 
   let chatData = await UserModel.populate(chatExists, {

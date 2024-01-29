@@ -20,10 +20,19 @@ export const ContactPersonInfo: React.FC<{
           justifyContent="space-between"
           alignItems="center"
         >
-          <Typography variant="body2">{name}</Typography>
-          <Typography variant="body2">{time}</Typography>
+          <Typography variant="body2" color={"white"}>
+            {name}
+          </Typography>
+          <Typography variant="body2" color={"white"}>
+            {time}
+          </Typography>
         </Box>
-        <Typography textAlign="start" width="100%" color={grey[500]}>
+        <Typography
+          textAlign="start"
+          width="100%"
+          color={grey[500]}
+          variant="body2"
+        >
           {latestMessage}
         </Typography>
       </Box>

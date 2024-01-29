@@ -8,14 +8,16 @@ export type User = {
   picture: string;
 };
 
-interface AuthState {
-  chatUsers: User[];
+interface ChatState {
+  chats: any[];
+  activeChat: any;
   isLoading: boolean;
   error: string | null;
 }
 
-const initialState: AuthState = {
-  chatUsers: [],
+const initialState: ChatState = {
+  chats: [],
+  activeChat: null,
   isLoading: false,
   error: null,
 };
@@ -23,7 +25,11 @@ const initialState: AuthState = {
 const chatSlice = createSlice({
   name: "chat",
   initialState,
-  reducers: {},
+  reducers: {
+    setActiveChat(state, { payload }) {
+      state.activeChat = payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getChatUser.pending, (state) => {
@@ -32,7 +38,7 @@ const chatSlice = createSlice({
       .addCase(getChatUser.fulfilled, (state, action: any) => {
         // TO DO ---> types
         state.isLoading = false;
-        state.chatUsers = action.payload.users;
+        state.chats.unshift(action.payload);
       })
       .addCase(getChatUser.rejected, (state, action: any) => {
         // TO DO ---> types
@@ -46,8 +52,7 @@ const chatSlice = createSlice({
       .addCase(getAllChats.fulfilled, (state, action: any) => {
         // TO DO ---> types
         state.isLoading = false;
-        console.log("in_slices", action.payload.users);
-        state.chatUsers = action.payload[0].users;
+        state.chats = action.payload || [];
       })
       .addCase(getAllChats.rejected, (state, action: any) => {
         // TO DO ---> types
@@ -56,5 +61,7 @@ const chatSlice = createSlice({
       });
   },
 });
+
+export const { setActiveChat } = chatSlice.actions;
 
 export default chatSlice.reducer;
