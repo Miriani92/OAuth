@@ -23,7 +23,6 @@ export const ChatUserMessage: React.FC<ChatUserMessageProps> = ({
   handleSendMessage,
   activeChat,
 }) => {
-  console.log("active_chat", activeChat);
   const backGroundColor = isMyMessage ? "message.primary.main" : "#4C426A";
   const justifyContent = isMyMessage ? "flex-end" : "start";
   return (
@@ -44,7 +43,6 @@ export const ChatUserMessage: React.FC<ChatUserMessageProps> = ({
           </Box>
         )}
 
-        {/* <ChatInput handleSendMessage={handleSendMessage} /> */}
         <Box
           display="flex"
           flexDirection="column"

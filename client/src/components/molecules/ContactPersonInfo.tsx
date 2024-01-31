@@ -28,10 +28,16 @@ export const ContactPersonInfo: React.FC<{
           </Typography>
         </Box>
         <Typography
-          textAlign="start"
-          width="100%"
+          // textAlign="start"
+          alignSelf="flex-start"
           color={grey[500]}
-          sx={{ fontSize: "12px" }}
+          sx={{
+            width: "100%",
+            fontSize: "10px",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+          }}
         >
           {latestMessage}
         </Typography>

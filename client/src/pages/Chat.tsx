@@ -109,6 +109,7 @@ export const Chat = () => {
                     user={chat?.users[0]}
                     key={idx}
                     onClick={handleClickChat}
+                    latestMessage={chat.latestMessage.content}
                   />
                 );
               })

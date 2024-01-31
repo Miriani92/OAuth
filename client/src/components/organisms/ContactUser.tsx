@@ -8,9 +8,15 @@ type ContactProps = {
   [K in keyof User]: User[K];
 } & {
   onClick: (user: User) => void;
+  latestMessage: any;
 };
 
-export const ContactUser: React.FC<any> = ({ chatId, user, onClick }) => {
+export const ContactUser: React.FC<any> = ({
+  chatId,
+  user,
+  onClick,
+  latestMessage,
+}) => {
   const handleClick = () => {
     onClick({
       chatId,
@@ -20,12 +26,12 @@ export const ContactUser: React.FC<any> = ({ chatId, user, onClick }) => {
     });
   };
   return (
-    <Button onClick={handleClick}>
-      <Box display="flex" justifyContent="center" gap={1}>
+    <Button onClick={handleClick} fullWidth>
+      <Box display="flex" justifyContent="center" gap={1} width={"80%"}>
         <Box alignSelf="flex-start">
           <ChatUserImage imageSource={user?.picture} />
         </Box>
-        <ContactPersonInfo name={user?.name} />
+        <ContactPersonInfo name={user?.name} latestMessage={latestMessage} />
       </Box>
     </Button>
   );
