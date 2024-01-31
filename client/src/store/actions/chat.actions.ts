@@ -18,6 +18,8 @@ export const getChatUser = createAsyncThunk(
       const data = await response.json();
       // TO DO ---> types: response
 
+      console.log("chat_user", data);
+
       return data as any;
     } catch (error) {
       throw error;

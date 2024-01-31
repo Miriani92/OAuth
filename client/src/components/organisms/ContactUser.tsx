@@ -10,21 +10,22 @@ type ContactProps = {
   onClick: (user: User) => void;
 };
 
-export const ContactUser: React.FC<any> = ({
-  chatId,
-  user: { name, picture, email },
-  onClick,
-}) => {
+export const ContactUser: React.FC<any> = ({ chatId, user, onClick }) => {
   const handleClick = () => {
-    onClick({ chatId, name, picture, email });
+    onClick({
+      chatId,
+      user: user?.name,
+      picture: user.picture,
+      email: user?.email,
+    });
   };
   return (
     <Button onClick={handleClick}>
       <Box display="flex" justifyContent="center" gap={1}>
         <Box alignSelf="flex-start">
-          <ChatUserImage imageSource={picture} />
+          <ChatUserImage imageSource={user?.picture} />
         </Box>
-        <ContactPersonInfo name={name} />
+        <ContactPersonInfo name={user?.name} />
       </Box>
     </Button>
   );

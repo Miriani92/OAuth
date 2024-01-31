@@ -1,15 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { Stack, TextField, IconButton } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 import { grey } from "@mui/material/colors";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
+type ChatInputProps = {
+  handleSendMessage: (content: string) => void;
+};
 
-export const ChatInput = () => {
+export const ChatInput: React.FC<ChatInputProps> = ({ handleSendMessage }) => {
+  const [message, setMessage] = useState("");
+
+  const handleChange = (e: any) => {
+    setMessage(e.target.value);
+  };
+
+  const onMessageSend = () => {
+    handleSendMessage(message);
+    setMessage("");
+  };
+
   return (
-    <Stack direction="row" gap={1} justifyContent="space-between">
+    <Stack
+      width={"95%"}
+      direction="row"
+      alignSelf={"center"}
+      gap={1}
+      justifyContent="space-between"
+      position={"absolute"}
+      bottom={16}
+    >
       <TextField
+        onChange={handleChange}
+        value={message}
         variant="outlined"
         size="small"
         fullWidth
@@ -54,6 +78,7 @@ export const ChatInput = () => {
       />
 
       <IconButton
+        onClick={onMessageSend}
         color="primary"
         sx={{
           borderRadius: "50%",

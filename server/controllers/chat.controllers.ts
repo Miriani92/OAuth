@@ -25,6 +25,7 @@ export const addUserToChat = async (req: Request, res: Response) => {
       match: { _id: { $ne: res.locals.user._id } },
     })
     .populate("latestMessage");
+  console.log("chatExist___", chatExists);
 
   let chatData = await UserModel.populate(chatExists, {
     path: "latestMessage.sender",
@@ -46,6 +47,7 @@ export const addUserToChat = async (req: Request, res: Response) => {
       select: "-password",
       match: { _id: { $ne: res.locals.user._id } },
     });
+    console.log("full_chat", FullChat);
 
     return res.status(200).json(FullChat);
   }

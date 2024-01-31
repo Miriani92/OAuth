@@ -31,7 +31,7 @@ export const ContactPersonInfo: React.FC<{
           textAlign="start"
           width="100%"
           color={grey[500]}
-          variant="body2"
+          sx={{ fontSize: "12px" }}
         >
           {latestMessage}
         </Typography>

@@ -38,7 +38,14 @@ const chatSlice = createSlice({
       .addCase(getChatUser.fulfilled, (state, action: any) => {
         // TO DO ---> types
         state.isLoading = false;
-        state.chats.unshift(action.payload);
+        const isChatExists = state.chats.some(
+          (chat) => chat._id === action.payload[0]._id
+        );
+        if (!isChatExists) {
+          const isArray = Array.isArray(action.payload);
+          const payload = isArray ? action.payload[0] : action.payload;
+          state.chats.unshift(payload);
+        }
       })
       .addCase(getChatUser.rejected, (state, action: any) => {
         // TO DO ---> types

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getCurrentUser } from "../actions/auth.actions";
 
 export type User = {
+  _id: string;
   name: string;
   email: string;
   picture: string;
@@ -15,6 +16,7 @@ interface AuthState {
 
 const initialState: AuthState = {
   user: {
+    _id: "",
     name: "",
     email: "",
     picture: "",
