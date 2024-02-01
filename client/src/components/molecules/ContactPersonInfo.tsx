@@ -12,27 +12,21 @@ export const ContactPersonInfo: React.FC<{
   latestMessage = "this is the last message",
 }) => {
   return (
-    <Box width="100%">
-      <Box display="flex" alignItems="center" flexDirection="column" gap={0.5}>
-        <Box
-          width={"100%"}
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Typography variant="body2" color={"white"}>
+    <Box width="80%">
+      <Box display="flex" flexDirection="column" gap={0.5}>
+        <Box width={"100%"} display="flex" gap={2} alignItems="center">
+          <Typography variant="body2" color={"white"} textAlign="left">
             {name}
           </Typography>
-          <Typography variant="body2" color={"white"}>
+          <Typography variant="body2" color={"white"} textAlign={"right"}>
             {time}
           </Typography>
         </Box>
         <Typography
-          // textAlign="start"
           alignSelf="flex-start"
           color={grey[500]}
           sx={{
-            width: "100%",
+            maxWidth: "100%",
             fontSize: "10px",
             overflow: "hidden",
             whiteSpace: "nowrap",

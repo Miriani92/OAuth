@@ -56,8 +56,7 @@ export const Chat = () => {
     return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
   }
   return (
-    <Container
-      disableGutters={true}
+    <Box
       sx={{
         width: "100%",
         display: "flex",
@@ -65,6 +64,7 @@ export const Chat = () => {
         flexDirection: "column",
         bgcolor: "chat.secondary.main",
         padding: 4,
+        flex: 1,
         height: "100vh",
       }}
     >
@@ -95,10 +95,12 @@ export const Chat = () => {
       </Box>
       <Box
         display="flex"
+        position="relative"
         alignItems="flex-start"
         gap={4}
         width="100%"
-        height={"100%"}
+        height={"90%"}
+        overflow="hidden"
       >
         <ContactsWrapper>
           {chats.length
@@ -110,6 +112,7 @@ export const Chat = () => {
                     key={idx}
                     onClick={handleClickChat}
                     latestMessage={chat.latestMessage.content}
+                    activeChat={activeChat}
                   />
                 );
               })
@@ -132,6 +135,6 @@ export const Chat = () => {
           <ChatInput handleSendMessage={handleSendMessage} />
         </ChatInputWrapper>
       </Box>
-    </Container>
+    </Box>
   );
 };

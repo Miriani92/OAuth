@@ -23,13 +23,13 @@ export const ChatInput: React.FC<ChatInputProps> = ({ handleSendMessage }) => {
 
   return (
     <Stack
-      width={"95%"}
       direction="row"
       alignSelf={"center"}
       gap={1}
       justifyContent="space-between"
-      position={"absolute"}
-      bottom={16}
+      position="sticky"
+      marginTop={2}
+      bottom={0}
     >
       <TextField
         onChange={handleChange}

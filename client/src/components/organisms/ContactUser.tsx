@@ -9,6 +9,7 @@ type ContactProps = {
 } & {
   onClick: (user: User) => void;
   latestMessage: any;
+  activeChat: any;
 };
 
 export const ContactUser: React.FC<any> = ({
@@ -16,7 +17,9 @@ export const ContactUser: React.FC<any> = ({
   user,
   onClick,
   latestMessage,
+  activeChat,
 }) => {
+  const activeChatColor = activeChat?.chatId === chatId ? "green" : "#4C426A";
   const handleClick = () => {
     onClick({
       chatId,
@@ -26,9 +29,13 @@ export const ContactUser: React.FC<any> = ({
     });
   };
   return (
-    <Button onClick={handleClick} fullWidth>
-      <Box display="flex" justifyContent="center" gap={1} width={"80%"}>
-        <Box alignSelf="flex-start">
+    <Button
+      onClick={handleClick}
+      fullWidth
+      sx={{ border: `1px solid ${activeChatColor}` }}
+    >
+      <Box display="flex" position="relative" gap={1} width={"100%"}>
+        <Box>
           <ChatUserImage imageSource={user?.picture} />
         </Box>
         <ContactPersonInfo name={user?.name} latestMessage={latestMessage} />
