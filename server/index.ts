@@ -43,10 +43,9 @@ io.on("connection", (socket) => {
   socket.on("setup", (user) => console.log("User connected"));
   socket.emit("message", "Welcome to the server!");
 
-  socket.on("message", (data) => {
-    console.log("Received message:", data);
-
-    io.emit("message", data);
+  socket.on("new message", (data) => {
+    console.log("Received message");
+    // io.emit("message received", data.chat[0]._id);
   });
 
   socket.on("disconnect", () => {

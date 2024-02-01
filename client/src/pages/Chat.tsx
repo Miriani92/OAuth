@@ -15,6 +15,9 @@ import { useAppDispatch } from "../hooks/use_store";
 import { setActiveChat } from "../store/slices/chat.slices";
 import { getChatUser } from "../store/actions/chat.actions";
 import { getALlMessages, sendMessage } from "../store/actions/message.actions";
+import { CustomScrollbarBox } from "../components/atoms/ChatInputWrapper";
+
+const socket = io(SOCKET_CONNECTION_URI);
 
 export const Chat = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -36,12 +39,16 @@ export const Chat = () => {
     dispatch(setActiveChat(chatData));
   };
 
-  const handleSendMessage = (content: string) => {
-    dispatch(sendMessage({ content, chatId: activeChat.chatId }));
+  const handleSendMessage = async (content: string) => {
+    console.log("activeChat___", activeChat);
+    const { payload } = await dispatch(
+      sendMessage({ content, chatId: activeChat.chatId })
+    );
+    console.log("payload", payload);
+    socket.emit("new message", payload);
   };
 
   useEffect(() => {
-    const socket = io(SOCKET_CONNECTION_URI);
     socket.emit("setup", user);
   }, [user]);
 
@@ -50,6 +57,10 @@ export const Chat = () => {
       dispatch(getALlMessages(activeChat.chatId));
     }
   }, [activeChat, dispatch]);
+
+  useEffect(() => {
+    // socket.on("message received", (id) => {});
+  }, [messages]);
 
   // TO-DO --->refactor loading functionality
   if (isChatDataLoading) {
@@ -111,7 +122,7 @@ export const Chat = () => {
                     user={chat?.users[0]}
                     key={idx}
                     onClick={handleClickChat}
-                    latestMessage={chat.latestMessage.content}
+                    latestMessage={chat.latestMessage?.content}
                     activeChat={activeChat}
                   />
                 );
@@ -119,19 +130,27 @@ export const Chat = () => {
             : null}
         </ContactsWrapper>
         <ChatInputWrapper activeChat={activeChat}>
-          {messages.map((message: any) => {
-            const isMyMessage = user._id === message.sender._id;
-            return (
-              <ChatUserMessage
-                key={message._id}
-                message={message}
-                currentUser={user}
-                isMyMessage={isMyMessage}
-                handleSendMessage={handleSendMessage}
-                activeChat={activeChat}
-              />
-            );
-          })}
+          <CustomScrollbarBox
+            sx={{
+              height: "92%",
+              overflowY: "scroll",
+              overflowX: "hidden",
+            }}
+          >
+            {messages.map((message: any) => {
+              const isMyMessage = user._id === message.sender._id;
+              return (
+                <ChatUserMessage
+                  key={message._id}
+                  message={message}
+                  currentUser={user}
+                  isMyMessage={isMyMessage}
+                  handleSendMessage={handleSendMessage}
+                  activeChat={activeChat}
+                />
+              );
+            })}
+          </CustomScrollbarBox>
           <ChatInput handleSendMessage={handleSendMessage} />
         </ChatInputWrapper>
       </Box>

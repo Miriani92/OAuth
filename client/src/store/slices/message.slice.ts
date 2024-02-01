@@ -36,9 +36,11 @@ const messageSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(sendMessage.fulfilled, (state, action: any) => {
+        state.messages.push(action.payload);
         // TO DO ---> types
       })
       .addCase(sendMessage.rejected, (state, action: any) => {
+        state.error = action.error.message || "something went wrong";
         // TO DO ---> types
       });
   },

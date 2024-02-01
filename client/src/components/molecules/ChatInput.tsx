@@ -21,14 +21,23 @@ export const ChatInput: React.FC<ChatInputProps> = ({ handleSendMessage }) => {
     setMessage("");
   };
 
+  const handleKeyDown = (e: any) => {
+    if (e.key === "Enter") {
+      handleSendMessage(message);
+      setMessage("");
+      return;
+    }
+  };
   return (
     <Stack
       direction="row"
-      alignSelf={"center"}
       gap={1}
       justifyContent="space-between"
+      alignSelf={"center"}
       position="sticky"
-      marginTop={2}
+      width="100%"
+      paddingLeft={2}
+      paddingRight={2}
       bottom={0}
     >
       <TextField
@@ -37,6 +46,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ handleSendMessage }) => {
         variant="outlined"
         size="small"
         fullWidth
+        onKeyDown={handleKeyDown}
         placeholder="Type a message"
         InputProps={{
           startAdornment: (

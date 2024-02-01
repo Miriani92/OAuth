@@ -19,7 +19,7 @@ export const ContactUser: React.FC<any> = ({
   latestMessage,
   activeChat,
 }) => {
-  const activeChatColor = activeChat?.chatId === chatId ? "green" : "#4C426A";
+  const activeChatColor = activeChat?.chatId === chatId ? "#24c3b0" : "#4C426A";
   const handleClick = () => {
     onClick({
       chatId,
@@ -32,7 +32,7 @@ export const ContactUser: React.FC<any> = ({
     <Button
       onClick={handleClick}
       fullWidth
-      sx={{ border: `1px solid ${activeChatColor}` }}
+      sx={{ border: `2px solid ${activeChatColor}` }}
     >
       <Box display="flex" position="relative" gap={1} width={"100%"}>
         <Box>

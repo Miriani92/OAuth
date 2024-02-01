@@ -37,6 +37,7 @@ export const sendMessage = createAsyncThunk(
         credentials: "include",
       });
       const data = await response.json();
+
       // TO DO ---> types: response
       return data as any;
     } catch (error) {
