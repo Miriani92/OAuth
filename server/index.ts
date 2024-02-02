@@ -40,12 +40,16 @@ const io = new SocketServer(server, {
 });
 
 io.on("connection", (socket) => {
-  socket.on("setup", (user) => console.log("User connected"));
-  socket.emit("message", "Welcome to the server!");
+  socket.on("setup", (user) => {
+    console.log(`User connected: ${user?.name}`);
+    socket.join(user._id);
+  });
 
   socket.on("new message", (data) => {
-    console.log("Received message");
-    // io.emit("message received", data.chat[0]._id);
+    socket.in(data?._id).emit("message received", data);
+  });
+  socket.on("messages deleted", (id) => {
+    socket.in(id).emit("message deleted", id);
   });
 
   socket.on("disconnect", () => {

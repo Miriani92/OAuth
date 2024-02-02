@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { Container, Box, Divider, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box, Typography, useScrollTrigger } from "@mui/material";
 import io from "socket.io-client";
 import { ChatUserMessage, SearchBar } from "../components";
 import { ButtonOutline } from "../components";
@@ -16,6 +16,8 @@ import { setActiveChat } from "../store/slices/chat.slices";
 import { getChatUser } from "../store/actions/chat.actions";
 import { getALlMessages, sendMessage } from "../store/actions/message.actions";
 import { CustomScrollbarBox } from "../components/atoms/ChatInputWrapper";
+import { messageReceived } from "../store/slices/message.slice";
+import { deleteMessages } from "../store/actions/message.actions";
 
 const socket = io(SOCKET_CONNECTION_URI);
 
@@ -28,6 +30,7 @@ export const Chat = () => {
     activeChat,
   } = useAppSelector((state) => state.chat);
   const { messages } = useAppSelector((state) => state.message);
+  // const [receivedMessages, setReceivedMessages] = useState<any>([]);
 
   const dispatch = useAppDispatch();
 
@@ -40,12 +43,18 @@ export const Chat = () => {
   };
 
   const handleSendMessage = async (content: string) => {
-    console.log("activeChat___", activeChat);
     const { payload } = await dispatch(
       sendMessage({ content, chatId: activeChat.chatId })
     );
-    console.log("payload", payload);
-    socket.emit("new message", payload);
+    socket.emit("new message", { ...payload, _id: activeChat._id });
+  };
+
+  const handleDeleteAllMessages = async () => {
+    if (activeChat?.chatId) {
+      await dispatch(deleteMessages(activeChat.chatId));
+      await dispatch(getALlMessages(activeChat.chatId));
+      socket.emit("messages deleted", user?._id);
+    }
   };
 
   useEffect(() => {
@@ -59,8 +68,12 @@ export const Chat = () => {
   }, [activeChat, dispatch]);
 
   useEffect(() => {
-    // socket.on("message received", (id) => {});
-  }, [messages]);
+    socket.on("message received", (data) => {
+      if (data?.sender?._id !== user._id) {
+        dispatch(messageReceived(data));
+      }
+    });
+  }, [socket]);
 
   // TO-DO --->refactor loading functionality
   if (isChatDataLoading) {
@@ -100,7 +113,7 @@ export const Chat = () => {
           justifyContent="space-between"
           gap={1}
         >
-          <ButtonOutline text="clear chat" />
+          <ButtonOutline text="clear chat" onClick={handleDeleteAllMessages} />
           <ButtonOutline text="more" />
         </Box>
       </Box>
@@ -135,6 +148,8 @@ export const Chat = () => {
               height: "92%",
               overflowY: "scroll",
               overflowX: "hidden",
+              paddingLeft: 2,
+              paddingRight: 2,
             }}
           >
             {messages.map((message: any) => {

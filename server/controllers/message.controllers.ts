@@ -62,3 +62,19 @@ export const sendMessage = async (req: Request, res: Response) => {
 
   //   res.status(200).json({ user: res.locals?.user || {} });
 };
+export const deleteMessages = async (req: Request, res: Response) => {
+  try {
+    console.log("chat_id", req.params);
+    const chatId = req.params.chatId;
+
+    const messages = await MessageModel.deleteMany({ chat: chatId });
+
+    res.status(200).json(messages);
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      statusCode: 400,
+      message: "Failed to fetch all Messages",
+    });
+  }
+};

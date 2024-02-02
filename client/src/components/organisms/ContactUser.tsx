@@ -24,6 +24,7 @@ export const ContactUser: React.FC<any> = ({
     onClick({
       chatId,
       user: user?.name,
+      _id: user._id,
       picture: user.picture,
       email: user?.email,
     });

@@ -45,3 +45,25 @@ export const sendMessage = createAsyncThunk(
     }
   }
 );
+export const deleteMessages = createAsyncThunk(
+  "data/deleteMessages",
+  async (chatId: string) => {
+    try {
+      console.log("delete_called", chatId);
+      const response = await fetch(`${BASE_MESSAGE_URL}/${chatId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      console.log("delete_called_success_res", response);
+      const data = await response.json();
+      // TO DO ---> types: response
+      return data as any;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
