@@ -39,10 +39,14 @@ const io = new SocketServer(server, {
   pingTimeout: 3600 * 1000,
 });
 
-io.on("connection", (socket) => {
+const chatUsers: any = {};
+io.on("connection", async (socket) => {
   socket.on("setup", (user) => {
     console.log(`User connected: ${user?.name}`);
     socket.join(user._id);
+    chatUsers[user._id] = user._id;
+    chatUsers[socket.id] = user._id;
+    io.emit("setup", chatUsers);
   });
 
   socket.on("new message", (data) => {
@@ -54,6 +58,13 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("User disconnected");
+    const userId = chatUsers[socket.id];
+    if (userId) {
+      console.log(`User disconnected: ${userId}`);
+      delete chatUsers[socket.id];
+      delete chatUsers[userId];
+    }
+    io.emit("update users", chatUsers);
   });
 });
 

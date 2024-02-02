@@ -30,7 +30,7 @@ export const Chat = () => {
     activeChat,
   } = useAppSelector((state) => state.chat);
   const { messages } = useAppSelector((state) => state.message);
-  // const [receivedMessages, setReceivedMessages] = useState<any>([]);
+  const [activeUsers, setActiveUsers] = useState<any>(null);
 
   const dispatch = useAppDispatch();
 
@@ -73,6 +73,15 @@ export const Chat = () => {
         dispatch(messageReceived(data));
       }
     });
+
+    socket.on("setup", (activeUsers: any) => {
+      console.log("setup___event____", activeUsers);
+      setActiveUsers(activeUsers);
+    });
+    socket.on("update users", (activeUsers: any) => {
+      console.log("updateUsers");
+      setActiveUsers(activeUsers);
+    });
   }, [socket]);
 
   // TO-DO --->refactor loading functionality
@@ -105,7 +114,7 @@ export const Chat = () => {
           getChatUser={getChatUser}
         />
         <Typography variant="body2">Hello {user.name.toUpperCase()}</Typography>
-        <ChatUserImage imageSource={user.picture} />
+        <ChatUserImage imageSource={user.picture} isActive={true} />
 
         <Box
           display="flex"
@@ -129,6 +138,12 @@ export const Chat = () => {
         <ContactsWrapper>
           {chats.length
             ? chats.map((chat, idx) => {
+                let isActive = false;
+                if (activeUsers) {
+                  if (activeUsers[chat?.users[0]?._id]) {
+                    isActive = true;
+                  }
+                }
                 return (
                   <ContactUser
                     chatId={chat?._id}
@@ -137,6 +152,7 @@ export const Chat = () => {
                     onClick={handleClickChat}
                     latestMessage={chat.latestMessage?.content}
                     activeChat={activeChat}
+                    isActive={isActive}
                   />
                 );
               })

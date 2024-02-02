@@ -10,6 +10,7 @@ type ContactProps = {
   onClick: (user: User) => void;
   latestMessage: any;
   activeChat: any;
+  isActive: boolean;
 };
 
 export const ContactUser: React.FC<any> = ({
@@ -18,6 +19,7 @@ export const ContactUser: React.FC<any> = ({
   onClick,
   latestMessage,
   activeChat,
+  isActive,
 }) => {
   const activeChatColor = activeChat?.chatId === chatId ? "#24c3b0" : "#4C426A";
   const handleClick = () => {
@@ -29,6 +31,7 @@ export const ContactUser: React.FC<any> = ({
       email: user?.email,
     });
   };
+
   return (
     <Button
       onClick={handleClick}
@@ -37,7 +40,7 @@ export const ContactUser: React.FC<any> = ({
     >
       <Box display="flex" position="relative" gap={1} width={"100%"}>
         <Box>
-          <ChatUserImage imageSource={user?.picture} />
+          <ChatUserImage imageSource={user?.picture} isActive={isActive} />
         </Box>
         <ContactPersonInfo name={user?.name} latestMessage={latestMessage} />
       </Box>
